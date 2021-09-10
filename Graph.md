@@ -184,6 +184,8 @@ class UnionFind{
     }
 
 }
+// sort the array wrt to logs' timestamp, then iterate the array till all the nodes gets connected i.e count becomes n-1
+//ignore the edges if nodes are already connected.
 class Solution {
     public int earliestAcq(int[][] logs, int n) {
         UnionFind uf = new UnionFind(n);
