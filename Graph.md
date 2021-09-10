@@ -10,37 +10,64 @@
 | ----------- | ----------- | ----------- | ----------- | ----------- |
 | Disjoint Set | Java | O(logN) | O(logN) | O(n) |
 ```java
-class Solution {
-    
-    public int find(int parent[], int x){
-        if(parent[x] == -1)
+class UnionFind{
+    int root[];
+    int rank[];
+    int count;
+    public UnionFind(int size){
+        root = new int[size];
+        rank = new int[size];
+        count = size;
+        for(int i = 0; i < size; i++){
+            root[i] = i;
+            rank[i] = 1;
+        }
+    }
+    public int find(int x){
+        if(x == root[x])
             return x;
-        return find(parent, parent[x]);
+        return root[x] = find(root[x]);
     }
     
-    public void union(int parent[], int x, int y){
-        int rootX = find(parent, x);
-        int rootY = find(parent, y);
-        if(rootX != rootY)
-            parent[rootY] = rootX;
+    public void union(int x, int y){
+        int rootX = find(x);
+        int rootY = find(y);
+        if(rootX != rootY){
+            if(rank[rootX] > rank[rootY])
+                //make rootx as the root of rooty
+                root[rootY] = rootX;
+            else if(rank[rootX] < rank[rootY])
+                //make rooty as the root of rootx
+                root[rootX] = rootY;
+            else{
+                //make rootx as the root of rooty
+                root[rootY] = rootX;
+                //increase rank of the rootx
+                rank[rootX] += 1;
+            }
+            count--;
+        }
     }
-    // initially the parent array has all -1 values,
-    //after union of the nodes which are connected, only parent array elements of root nodes are -1, rest have their respective root node
+    
+    public int getCount(){
+        return count;
+    }
+
+}
+class Solution {
+    //initially all nodes are itself a province i.e count = total number of nodes
+    //then after each union of nodes, the number of province gets decreased as size of province gets increased
+    //finally when all the nodes are connected to their respective province, the count will give the total number of provinces
     public int findCircleNum(int[][] isConnected) {
         int n = isConnected.length;
-        int parent[] = new int[n];
-        Arrays.fill(parent, -1);
-        for(int i = 0; i < n; i++){
+        UnionFind prov = new UnionFind(n);
+        for(int i = 0; i< n; i++){
             for(int j = 0; j < n; j++){
-                if((i != j) && (isConnected[i][j] == 1))
-                    union(parent,i,j);
+                if(isConnected[i][j] == 1)
+                    prov.union(i,j);
             }
         }
-        int count = 0;
-        for(int i : parent){
-            if(i == -1) count++;
-        }
-        return count;
+        return prov.getCount();
     }
 }
 ```
