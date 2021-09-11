@@ -2,7 +2,8 @@
 ### Table of contents
 1. [Graph Valid Tree](#validTreeGraph)
 2. [Number of Provinces](#provinces)
-3. [The Earliest Moment When Everyone Become Friends](#earliest)
+3. [Smallest String With Swaps](#smallestStringSwaps)
+4. [The Earliest Moment When Everyone Become Friends](#earliest)
 
 
 ### Graph Valid Tree <a name="validTreeGraph"></a>
@@ -129,6 +130,61 @@ class Solution {
             }
         }
         return prov.getCount();
+    }
+}
+```
+---
+### Smallest String with Swaps <a name="smallestStringSwaps"></a>
+##### You are given a string s, and an array of pairs of indices in the string pairs where pairs[i] = [a, b] indicates 2 indices(0-indexed) of the string. Return the lexicographically smallest string that s can be changed to after using the swaps.
+```java
+class UnionFind{
+    int root[];
+    public UnionFind(int size){
+        root = new int[size];
+        for(int i = 0; i < size; i++){
+            root[i] = i;
+        }
+    }
+    public int find(int x){
+        if(x == root[x])
+            return x;
+        return root[x] = find(root[x]);
+    }
+    public void union(int x, int y){
+        int rootX = find(x);
+        int rootY = find(y);
+        if(rootX != rootY){
+            root[rootY] = rootX;
+        }
+        
+    }
+    public boolean isConnected(int x, int y){
+        return find(x) == find(y);
+    }
+}
+//after making union of the pairs given to make provinces, the root node of each of the components is mapped to the 
+//respective nodes of the component (the nodes in a map are pulled out in ascending order using priority queue)
+class Solution {
+    public String smallestStringWithSwaps(String s, List<Lista<Integer>> pairs) {
+        int n = s.length();
+        HashMap<Integer, PriorityQueue<Character>> mp = new HashMap<Integer, PriorityQueue<Character>>();
+        UnionFind uf = new UnionFind(n);
+        for(List<Integer> pair : pairs){
+            uf.union(pair.get(0), pair.get(1));
+        }
+        //iterate over the string and put the elements in a priorityqueue mapped with the corresponding root node
+        for(int i = 0; i < n; i++){
+            mp.putIfAbsent(uf.find(i),new PriorityQueue<Character>());
+            mp.get(uf.find(i)).add(s.charAt(i));
+        }
+        //now iterate over the string and find the root node of the character
+        //pull out the characters one by one from the root node of the corresponding character and
+        //add it to the resultant string
+        String res = "";
+        for(int i = 0; i < n; i++){
+            res+= String.valueOf(mp.get(uf.find(i)).poll());
+        }
+        return res;
     }
 }
 ```
