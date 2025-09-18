@@ -1,6 +1,7 @@
 ## Two Pointers
 ### Table of contents
 1. [Container With Most Water](#most_water)
+2. [Trapping Rain Water](#trap_water)
 
 ---
 ### Container With Most Water <a name="most_water"></a>
@@ -24,4 +25,30 @@ class Solution:
                 j-=1
         
         return maxA
+```
+
+---
+### Trapping Rain Water <a name="trap_water"></a>
+##### Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.
+<img width="412" height="161" alt="image" src="https://github.com/user-attachments/assets/28f91b15-10f8-4d04-9f1b-42f3de1f7465" />
+
+Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]\
+Output: 6
+```python
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        maxL, maxR = 0, 0
+        l,r = 0, len(height)-1 
+        sumTot = 0
+        while( l < r ):
+            if height[l] < height[r]:
+                sumTot += max(maxL-height[l], 0)
+                maxL = max(maxL,height[l])
+                l += 1
+            else:
+                sumTot += max(maxR-height[r], 0)
+                maxR = max(maxR, height[r])
+                r -= 1
+
+        return sumTot
 ```
