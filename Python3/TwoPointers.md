@@ -4,6 +4,7 @@
 2. [Trapping Rain Water](#trap_water)
 3. [3Sum](#3sum)
 4. [Two Sum II - Input Array Is Sorted](#2sum_2)
+5. [Valid Palindrome](#valid_palindrome)
 
 ---
 ### Container With Most Water <a name="most_water"></a>
@@ -88,7 +89,7 @@ class Solution:
 ```
 
 ---
-### Two Sum II - Input Array Is Sorted
+### Two Sum II - Input Array Is Sorted <a name="2sum_2"></a>
 ##### Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 <= index1 < index2 <= numbers.length. Return the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2. The tests are generated such that there is exactly one solution. You may not use the same element twice. Your solution must use only constant extra space.
 Input: numbers = [2,7,11,15], target = 9 \
 Output: [1,2]
@@ -105,4 +106,27 @@ class Solution:
             else:
                 i = i + 1
         return [-1,-1]
+```
+
+---
+### Valid Palindrome <a name="valid_palindrome"></a>
+##### A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers. Given a string s, return true if it is a palindrome, or false otherwise.
+Input: s = "A man, a plan, a canal: Panama" \
+Output: true
+```python
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        s_ = ""
+        for ch in s:
+            if ch.isalnum():
+                s_ = s_ + ch.lower()
+        i , j = 0 , len(s_) - 1
+        while i < len(s_)/2:
+            if s_[i] != s_[j]:
+                return False
+            i = i + 1
+            j = j - 1
+        return True
+
+        
 ```
