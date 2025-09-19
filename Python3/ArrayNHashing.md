@@ -1,6 +1,7 @@
 ## Array and Hashing
 ### Table of contents
 1. [Contains Duplicate](#duplicate)
+2. [Valid Anagram](#anagram)
 
 ---
 ### Contains Duplicate <a name="duplicate"></a>
@@ -16,4 +17,41 @@ class Solution:
                 return True
             
         return False
+```
+
+---
+### Valid Anagram <a name="anagram"></a>
+##### Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+Input: s = "anagram", t = "nagaram" \
+Output: true
+```python
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        # if sorted(s) == sorted(t):
+        #     return True
+        # else:
+        #     return False
+
+
+        # using hash table
+        hmap = dict()
+        if len(s) != len(t):
+            return False
+        for i in s:
+            if i not in hmap:
+                hmap[i] = 1
+            else:
+                hmap[i] = hmap[i] + 1
+        
+        for j in t:
+            if j not in hmap:
+                return False
+            hmap[j] = hmap[j] - 1
+    
+
+        for key in hmap:
+            if hmap[key] != 0:
+                return False
+
+        return True
 ```
