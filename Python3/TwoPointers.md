@@ -1,8 +1,8 @@
 ## Two Pointers
 ### Table of contents
-1. [Container With Most Water](#most_water)
-2. [Trapping Rain Water](#trap_water)
-3. [3Sum](#3sum)
+1. [3Sum](#3sum)
+2. [Container With Most Water](#most_water)
+3. [Trapping Rain Water](#trap_water)
 4. [Two Sum II - Input Array Is Sorted](#2sum_2)
 5. [Valid Palindrome](#valid_palindrome)
 
